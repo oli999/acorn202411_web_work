@@ -12,13 +12,17 @@
 <head>
 <meta charset="UTF-8">
 <title>webapp/food/list.jsp</title>
+<jsp:include page="/include/resource.jsp"></jsp:include>
 </head>
 <body>
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="food" name="current"/>
+	</jsp:include>
 	<div class="container">
 		<a href="insertform.jsp">음식 추가</a>
 		<h1>음식 목록</h1>
-		<table>
-			<thead>
+		<table class="table table-bordered">
+			<thead class="table-dark">
 				<tr>
 					<th>번호</th>
 					<th>유형</th>

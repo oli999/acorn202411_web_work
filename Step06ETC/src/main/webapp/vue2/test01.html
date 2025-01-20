@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/vue2/test01.html</title>
+<style>
+	.box{
+		width:100px;
+		height:100px;
+		background-color:yellow;
+		border:1px solid red;
+	}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div class="container" id="app">
+		<input type="text" v-model="msg"/>
+		<p>{{msg}}</p>
+		<h3>좋아하는 음식을 선택해 보세요</h3>
+		<select v-model="food">
+			<option value="">선택</option>
+			<option value="ramen">라면</option>
+			<option value="kimbap">김밥</option>
+			<option value="dduk">떡복기</option>
+		</select>
+		<p>나는 <strong>{{food}}</strong> 을(를) 좋아해요!</p>
+		<h3>노란 박스</h3>
+		<input type="checkbox" v-model="isShow"/> 보이게하기
+		<div class="box" v-show="isShow"></div>
+		
+		<h3>목록 출력</h3>
+		<button v-on:click="change">동물로 변경</button>
+		<ul>
+			<li v-for="tmp in names">{{tmp}}</li>
+		</ul>
+	</div>
+	<script>
+		new Vue({
+			el:"#app",
+			data:{
+				msg:"",
+				food:"ramen",
+				isShow:false,
+				names:["김구라", "해골", "원숭이"]
+			},
+			methods:{
+				change:function(){
+					this.names = ["강아지","코끼리","사자"];
+				}
+			}
+		});
+	</script>
+</body>
+</html>
+
+
+
+

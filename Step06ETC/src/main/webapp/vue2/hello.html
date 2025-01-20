@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>hello.html</title>
+<!-- vue js 로딩하기 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="one">
+		<button id="changeBtn">변경하기</button>
+		<p id="fortune"></p>
+	</div>
+	<script>
+		let fortuneToday="동쪽으로 가면 귀인을 만나요";
+		
+		document.querySelector("#fortune").innerText = fortuneToday;
+		
+		document.querySelector("#changeBtn").addEventListener("click", ()=>{
+			fortuneToday = "남쪽으로 가면 구라를 만나요!";
+			document.querySelector("#fortune").innerText = fortuneToday;
+		});
+	</script>
+	<div id="two">
+		<button @click="change">변경하기</button>
+		<p>{{fortuneToday}}</p>
+	</div>
+	<script>
+		//vuejs 를 사용하는 코드 작성
+		new Vue({
+			el:"#two",
+			data:{
+				fortuneToday:"동쪽으로 가면 귀인을 만나요!"
+			},
+			methods:{
+				change:function(){
+					this.fortuneToday="남쪽으로 가면 애플워치가 생겨요!";
+				}
+			}
+		});
+		
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test09.html</title>
+</head>
+<body>
+	<div class="container" id="app">
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>주소</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="tmp in members">
+					<td>{{tmp.num}}</td>
+					<td>{{tmp.name}}</td>
+					<td>{{tmp.addr}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el:"#app",
+			data:{
+				members:[]
+			},
+			created(){
+				//vuejs 가 초기화 되었을때 호출되는 함수 
+				//렌더링에 필요한 데이터를 서버로 부터 받아온다.
+				fetch("members.jsp")
+				.then(res=>res.json())
+				.then(data=>{
+					// data 는 [{},{},{}] 형식의 배열이다 
+					this.members = data;
+				})
+				.catch(error=>{
+					console.log("에러정보:"+error);
+				});
+			}
+		});
+	</script>
+</body>
+</html>
+
+
+
+
+

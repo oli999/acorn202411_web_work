@@ -10,14 +10,13 @@
 	String keyword=request.getParameter("keyword");
 	String findQuery=null;
 	//있다면 dto 에 해당 정보를 담는다.
-	PostDto findDto=null;
+	PostDto findDto=new PostDto();
 	if(condition != null){
-		findDto=new PostDto();
+		//findDto=new PostDto();
 		findDto.setCondition(condition);
 		findDto.setKeyword(keyword);
 		findQuery="&condition="+condition+"&keyword="+keyword;
 	}
-
 	//자세히 보여줄 글의 번호를 읽어온다. 
 	int num=Integer.parseInt(request.getParameter("num"));
 	findDto.setNum(num);
@@ -76,7 +75,7 @@
 		<c:if test="${dto.nextNum ne 0}">
 			<a href="view.jsp?num=${dto.nextNum}${findQuery}">다음글</a>
 		</c:if>
-		<c:if test="${not empty findDto}">
+		<c:if test="${not empty findDto.condition}">
 			<p>
 				<strong>${findDto.condition }</strong> 조건
 				<strong>${findDto.keyword }</strong>검색어로 검색된 내용 자세히보기

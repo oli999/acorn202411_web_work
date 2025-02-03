@@ -1,7 +1,6 @@
 <%@page import="java.util.List"%>
 <%@page import="test.post.dto.PostDto"%>
 <%@page import="test.post.dao.PostDao"%>
-<%@page import="oracle.jdbc.proxy.annotation.Post"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>

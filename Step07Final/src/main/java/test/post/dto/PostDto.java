@@ -11,10 +11,11 @@ public class PostDto {
 	//페이징 처리할때 필요한 필드
 	private int startRowNum;
 	private int endRowNum;
-	private String condition;
-	private String keyword;
-	private long prevNum;
-	private long nextNum;
+	private String condition; //검색 조건  writer 또는 title 또는 title+content 
+	private String keyword; //검색 키워드
+	private long prevNum; //이전글의 글번호
+	private long nextNum; //다음글의 글번호 
+	
 	public long getNum() {
 		return num;
 	}

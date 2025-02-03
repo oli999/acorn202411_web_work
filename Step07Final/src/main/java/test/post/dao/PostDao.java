@@ -34,14 +34,25 @@ public class PostDao {
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT COUNT(*) AS count FROM posts ");
 
+            // 검색 조건 추가
             if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
-                sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
+                if (dto.getCondition().equals("title_content")) {
+                    sql.append("WHERE title LIKE ? OR content LIKE ? ");
+                } else {
+                    sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
+                }
             }
 
             pstmt = conn.prepareStatement(sql.toString());
 
+            int paramIndex = 1;
             if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
-                pstmt.setString(1, "%" + dto.getKeyword() + "%");
+                if (dto.getCondition().equals("title_content")) {
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                } else {
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                }
             }
 
             rs = pstmt.executeQuery();
@@ -216,7 +227,11 @@ public class PostDao {
 
 	        // 검색 조건 및 키워드 추가
 	        if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
-	            sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
+                if (dto.getCondition().equals("title_content")) {
+                    sql.append("WHERE title LIKE ? OR content LIKE ? ");
+                } else {
+                    sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
+                }
 	        }
 
 	        sql.append(") WHERE num = ?");
@@ -225,7 +240,12 @@ public class PostDao {
 
 	        int paramIndex = 1;
 	        if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
-	            pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+	        	if (dto.getCondition().equals("title_content")) {
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                } else {
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                }
 	        }
 	        pstmt.setLong(paramIndex, dto.getNum());
 
@@ -397,7 +417,11 @@ public class PostDao {
             sql.append("(SELECT num, writer, title, viewCount, TO_CHAR(createdAt, 'YYYY.MM.DD HH24:MI') AS createdAt FROM posts ");
 
             if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
-                sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
+                if (dto.getCondition().equals("title_content")) {
+                    sql.append("WHERE title LIKE ? OR content LIKE ? ");
+                } else {
+                    sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
+                }
             }
 
             sql.append("ORDER BY num DESC) result1) WHERE rnum BETWEEN ? AND ?");
@@ -406,7 +430,12 @@ public class PostDao {
 
             int paramIndex = 1;
             if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
-                pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+            	 if (dto.getCondition().equals("title_content")) {
+                     pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                     pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                 } else {
+                     pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                 }
             }
 
             pstmt.setInt(paramIndex++, dto.getStartRowNum());

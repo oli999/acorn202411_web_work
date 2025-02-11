@@ -31,4 +31,26 @@ CREATE TABLE readed_data(
 	session_id VARCHAR2(50)
 );
 
+CREATE TABLE comments(
+	num NUMBER PRIMARY KEY, -- 댓글의 글번호 
+	writer VARCHAR2(100) NOT NULL, -- 작성자
+	content VARCHAR2(200) NOT NULL, -- 내용
+	targetWriter VARCHAR2(100) NOT NULL, -- 댓글 대상자의 id (작성자, username)
+	postNum NUMBER NOT NULL, -- 원글의 글번호
+	parentNum NUMBER NOT NULL, -- 댓글의 그룹번호
+	deleted CHAR(3) DEFAULT 'no',
+	createdAt DATE
+);
+
+CREATE SEQUENCE comments_seq;
+
+
+
+
+
+
+
+
+
+
 

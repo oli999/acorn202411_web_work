@@ -337,6 +337,7 @@
 			if(!isLogin){
 				alert("로그인 페이지로 이동합니다");
 				location.href="${pageContext.request.contextPath }/user/login-form.jsp?url=${pageContext.request.contextPath }/post/view.jsp?num=${dto.num}";
+				return;
 			}
 			//폼 제출 막기 
 			e.preventDefault();
@@ -506,6 +507,7 @@
 				if(!isLogin){
 					alert("로그인 페이지로 이동합니다");
 					location.href="${pageContext.request.contextPath }/user/login-form.jsp?url=${pageContext.request.contextPath }/post/view.jsp?num=${dto.num}";
+					return;
 				}
 				
 				//보여주거나 숨길 form 의 참조값 얻어내기 

@@ -503,6 +503,11 @@
 			})
 			
 			li.querySelector(".reply-link").addEventListener("click", (e)=>{
+				if(!isLogin){
+					alert("로그인 페이지로 이동합니다");
+					location.href="${pageContext.request.contextPath }/user/login-form.jsp?url=${pageContext.request.contextPath }/post/view.jsp?num=${dto.num}";
+				}
+				
 				//보여주거나 숨길 form 의 참조값 얻어내기 
 				const form=li.querySelector(".re-insert-form");
 				//눌러진 링크의 innerText 읽어오기

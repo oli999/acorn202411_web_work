@@ -9,6 +9,8 @@
 <%
 	// /post/comment-list./jsp  
 	
+	Thread.sleep(1000); //spinner 테스트를 위해 응답 시간을 1초 지연 시킨다
+	
 	//댓글의 페이지 번호
 	int pageNum=Integer.parseInt(request.getParameter("pageNum"));
 	//원글의 글번호

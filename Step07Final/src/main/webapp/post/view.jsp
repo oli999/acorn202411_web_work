@@ -270,26 +270,46 @@
 			<ul>
 			
 			</ul>
-			<div class="more">
-				<button id="moreBtn">댓글 더보기</button>
+			<div class="d-grid col-sm-6 mx-auto mb-5">
+				<button class="btn btn-success" id="moreBtn">
+					<span id="moreText">댓글 더보기</span>
+					<div  id="spinner" class="spinner-border" role="status">
+  						<span class="visually-hidden">Loading...</span>
+					</div>
+				</button>
 			</div>
 		</div>
 	</div>
 	<script>
 		let totalPageCount=0;
 		let currentPage=1;
+		
+		setLoading(false);
+		
+		function setLoading(loading){
+			if(loading){
+				document.querySelector("#moreText").style.display="none";
+				document.querySelector("#spinner").style.display="inline-block";
+			}else{
+				document.querySelector("#moreText").style.display="inline";
+				document.querySelector("#spinner").style.display="none";
+			}
+		}
+		
 	
 		document.querySelector("#moreBtn").addEventListener("click", ()=>{
 			if(currentPage >= totalPageCount){
 				alert("댓글의 마지막 페이지 입니다.");
 				return;
 			}
+			setLoading(true);
 			//댓글 페이지 번호를 1 증가 시키고
 			currentPage++;
 			//해당페이지의 정보를 요청해서 받아온다. 
 			fetch(`comment-list.jsp?pageNum=\${currentPage}&postNum=${dto.num}`)
 			.then(res=>res.json())
 			.then(commentData=>{
+				setLoading(false);
 				//전체 페이지의 갯수
 				totalPageCount=commentData.totalPageCount;
 				//댓글 목록에 있는 댓글 정보 하나 하나를 참조하면서 
@@ -334,13 +354,15 @@
 		const isLogin=${not empty sessionDto};
 	
 		document.querySelector(".comment-form").addEventListener("submit", (e)=>{
+			//폼 제출 막기 
+			e.preventDefault();
+			
 			if(!isLogin){
 				alert("로그인 페이지로 이동합니다");
 				location.href="${pageContext.request.contextPath }/user/login-form.jsp?url=${pageContext.request.contextPath }/post/view.jsp?num=${dto.num}";
 				return;
 			}
-			//폼 제출 막기 
-			e.preventDefault();
+			
 			//폼에 작성된 내용을 이용해서 query 문자열을 얻어낸다. 
 			const formData=new FormData(e.target);
 			const queryString = new URLSearchParams(formData).toString();
@@ -361,7 +383,8 @@
 		function makeList(comment){
 			// li 요소를 만들어서 
 			const li = document.createElement("li");
-			li.classList.add(comment.num !== comment.parentNum ? "indent" : "not");
+			// 댓글의 댓글 li 요소에는 indent 클래스를 추가한다.
+			li.classList.add(comment.num !== comment.parentNum ? "indent" : "not-indent");
 			
 			//만일 삭제된 댓글 이라면 
 			if(comment.deleted == "yes"){
@@ -413,10 +436,7 @@
 					    <!-- 답글, 수정, 삭제 버튼 -->
 					    <div class="comment-actions">
 					        <a class="reply-link" href="javascript:">답글</a>
-					        \${userName == comment.writer ? `
-					            <a class="update-link" href="javascript:">수정</a>
-					            <a class="delete-link" href="javascript:">삭제</a>
-					        ` : ''}
+					        \${link}
 					    </div>
 					</dt>
 

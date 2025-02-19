@@ -7,25 +7,25 @@
 		WHERE num=#{num}
 	</delete>
 
-	<update id="update" parameterType="com.example.spring06.dto.MemberDto">
+	<update id="update" parameterType="memberDto">
 		UPDATE member
 		SET name=#{name}, addr=#{addr}
 		WHERE num=#{num}
 	</update>
 	
-	<insert id="insert" parameterType="com.example.spring06.dto.MemberDto">
+	<insert id="insert" parameterType="memberDto">
 		INSERT INTO member
 		(num, name, addr)
 		VALUES(member_seq.NEXTVAL, #{name}, #{addr})
 	</insert>
 
-	<select id="getList" resultType="com.example.spring06.dto.MemberDto">
+	<select id="getList" resultType="memberDto">
 		SELECT num, name, addr
 		FROM member
 		ORDER BY num ASC
 	</select>
 	
-	<select id="getData" parameterType="int" resultType="com.example.spring06.dto.MemberDto">
+	<select id="getData" parameterType="int" resultType="memberDto">
 		SELECT num, name, addr
 		FROM member
 		WHERE num=#{num}

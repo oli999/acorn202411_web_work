@@ -22,7 +22,7 @@ public class UserDto {
 	private String createdAt;
 	private String updatedAt;
 	//프로필 이미지 파일 업로드 처리를 하기 위한 필드
-	private MultipartFile image; 
+	private MultipartFile profileFile; 
 }
 
 

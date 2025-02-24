@@ -42,9 +42,19 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public int update(UserDto dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return session.update("user.update", dto);
 	}
 	
 
 }
+
+
+
+
+
+
+
+
+
+

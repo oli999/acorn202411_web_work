@@ -10,4 +10,8 @@ public interface PostDao {
 	public int delete(long num);
 	public int update(PostDto dto);
 	public int getCount(PostDto dto);
+	//저장할 글번호를 생성해서 리턴해주는 메소드
+	public long getSequence();
+	public PostDto getData(long num);
+	public PostDto getDetail(PostDto dto);
 }

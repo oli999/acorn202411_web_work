@@ -23,10 +23,15 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 		//spring security 가 인증과정을 거치지 않는 요청 경로 
 		String[] whiteList= {"/", "/play", "/user/loginform", "/user/login-fail", "/user/expired",
-				"/user/signup-form", "/user/signup", "/user/checkid", "/upload/**"};
+				"/user/signup-form", "/user/signup", "/user/checkid", "/upload/**",
+				"/post/list", "/post/view"};
 		
 		 
 		httpSecurity
+		.headers(header -> 
+			//iframe 을 사용할수 있도록 설정(default 값은 사용불가, SmartEditor 에서 필요함)
+			header.frameOptions(option->option.sameOrigin())
+		)
 		.csrf(csrf->csrf.disable())
 		.authorizeHttpRequests(config ->
 			config

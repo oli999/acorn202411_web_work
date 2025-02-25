@@ -12,6 +12,8 @@ import com.example.spring10.dto.PostDto;
 import com.example.spring10.dto.PostListDto;
 import com.example.spring10.service.PostService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class PostController {
 	
@@ -64,10 +66,17 @@ public class PostController {
 	 *  검색과 관련된 정보도 같이 있을수 있다. 
 	 */
 	@GetMapping("/post/view")
-	public String view(PostDto dto, Model model) {
+	public String view(PostDto dto, Model model, HttpSession session) {
 		
 		PostDto resultDto=service.getDetail(dto);
 		model.addAttribute("postDto", resultDto);
+		
+		//새로 작성한 글이 아닌 경우에만 조회수 관련 처리를 한다. 
+		if(model.getAttribute("saveMessage") == null) {
+			//조회수 관련 처리를 한다.
+			String sessionId=session.getId();
+			service.manageViewCount(dto.getNum(), sessionId);
+		}
 		
 		return "post/view";
 	}

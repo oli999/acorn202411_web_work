@@ -16,6 +16,7 @@
 					<th>작성자</th>
 					<th>제목</th>
 					<th>조회수</th>
+					<th>수정일</th>
 					<th>등록일</th>
 				</tr>
 			</thead>
@@ -27,6 +28,7 @@
 						<a th:href="@{|view?num=${post.num}${dto.findQuery}|}">[[${post.title}]]</a>
 					</td>
 					<td>[[${post.viewCount}]]</td>
+					<td>[[${post.updatedAt}]]</td>
 					<td>[[${post.createdAt}]]</td>
 				</tr>
 			</tbody>

@@ -53,13 +53,14 @@
 			<a class="btn btn-outline-success btn-sm" th:href="@{'/post/edit?num=' + ${postDto.num}}">수정</a>
 			<a class="btn btn-outline-danger btn-sm" href="javascript:" onclick="deleteConfirm()">삭제</a>
 			<script th:inline="javascript">
-				//thymeleaf 가 아래의 javascript 를 어떻게 출력했는지 확인해 보세요.
-				let dto=[[${dto}]];
-				let contextPath=[[@{/}]];
-				
+				// javascript 변수에 context path 대입하기 
+				let contextPath=/*[[@{/}]]*/ "";
 				// 역슬레시 제거하기
 				contextPath = contextPath.replace("\\", "");
-				
+				/*
+					th:inline="javascript" 영역에서 참조되는 내용을 그대로 해당 위치에 출력하고자 한다면
+					[( )] 기호를 사용한다.   
+				*/
 				let contextPath2="[(@{/})]";
 				
 				function deleteConfirm(){

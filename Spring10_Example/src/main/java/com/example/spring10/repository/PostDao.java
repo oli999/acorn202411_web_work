@@ -14,4 +14,7 @@ public interface PostDao {
 	public long getSequence();
 	public PostDto getData(long num);
 	public PostDto getDetail(PostDto dto);
+	public int insertReaded(long num, String sessionId);
+	public boolean isReaded(long num, String sessionId);
+	public int addViewCount(long num);
 }

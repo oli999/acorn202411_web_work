@@ -20,6 +20,23 @@
 		</choose>
 	</sql>
 	
+	<insert id="insertReaded" parameterType="map">
+		INSERT INTO readed_data
+		(num, session_id)
+		VALUES(#{num}, #{sessionId})
+	</insert>
+	
+	<select id="isReaded" parameterType="map" resultType="map">
+		SELECT *
+		FROM readed_data
+		WHERE num=#{num} AND session_id=#{sessionId}
+	</select>
+	
+	<update id="addViewCount" parameterType="long">
+		UPDATE posts
+		SET viewCount=viewCount+1
+		WHERE num=#{num}
+	</update>
 	<!-- 
 		parameter 로 전달되는 PostDto 에는 검색 keyword 가 있을수 있다. 
 		keyword 가 있다면 keword 에 해당하는 글 목록중에서 이전글의 글번호와 다음글의 글번호를 select 해야한다. 

@@ -109,6 +109,18 @@ public class PostServiceImpl implements PostService{
 		postDao.delete(num);
 	}
 
+	@Override
+	public void manageViewCount(long num, String sessionId) {
+		//이미 읽었는지 여부를 얻어낸다 
+		boolean isReaded=postDao.isReaded(num, sessionId);
+		if(!isReaded){
+			//글 조회수도 1 증가 시킨다
+			postDao.addViewCount(num);
+			//이미 읽었다고 표시한다. 
+			postDao.insertReaded(num, sessionId);
+		}
+	}
+
 }
 
 

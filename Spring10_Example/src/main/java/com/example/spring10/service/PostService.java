@@ -10,4 +10,5 @@ public interface PostService {
 	public PostDto getDetail(PostDto dto);
 	public void updatePost(PostDto dto);
 	public void deletePost(long num);
+	public void manageViewCount(long num, String sessionId);
 }

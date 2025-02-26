@@ -49,4 +49,14 @@ public class CommentDaoImpl implements CommentDao{
 		return session.selectList("comment.getList", dto);
 	}
 
+	@Override
+	public int getCount(long postNum) {
+		
+		return session.selectOne("comment.getCount", postNum);
+	}
+
 }
+
+
+
+

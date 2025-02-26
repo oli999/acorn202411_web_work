@@ -50,9 +50,9 @@
             SELECT result1.*, ROWNUM AS rnum FROM (
                 SELECT comments.num, writer, content, targetWriter, postNum, 
                        parentNum, deleted, comments.createdAt, profileImage
-                FROM comments 
+                FROM comments
                 JOIN users ON comments.writer = users.userName
-                WHERE c.postNum = #{postNum}
+                WHERE postNum = #{postNum}
                 ORDER BY parentNum DESC, num ASC
             ) result1
         )

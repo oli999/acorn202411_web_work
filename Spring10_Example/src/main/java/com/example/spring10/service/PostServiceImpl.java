@@ -1,13 +1,18 @@
 package com.example.spring10.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.example.spring10.dto.CommentDto;
+import com.example.spring10.dto.CommentListRequest;
 import com.example.spring10.dto.PostDto;
 import com.example.spring10.dto.PostListDto;
+import com.example.spring10.repository.CommentDao;
 import com.example.spring10.repository.PostDao;
 
 @Service
@@ -18,7 +23,9 @@ public class PostServiceImpl implements PostService{
 	//하단 페이지를 몇개씩 표시할 것인지
 	final int PAGE_DISPLAY_COUNT=5;
 	
+	//서비스는 여러가지 dao 에 의존성이 있을수 있다. 
 	@Autowired private PostDao postDao;
+	@Autowired private CommentDao commentDao;
 		
 	/*
 	 *  pageNum 과 검색 조건, 키워드가 담겨 있을수 있는 PostDto 를 전달하면
@@ -119,6 +126,73 @@ public class PostServiceImpl implements PostService{
 			//이미 읽었다고 표시한다. 
 			postDao.insertReaded(num, sessionId);
 		}
+	}
+
+	@Override
+	public void createComment(CommentDto dto) {
+		//글 작성자
+		String writer=SecurityContextHolder.getContext().getAuthentication().getName();
+		//저장할 댓글의 번호 미리 얻어내기 
+		long num=commentDao.getSequence();
+		long parentNum=dto.getParentNum();
+		//만일 원글의 댓글이면 
+		if(parentNum == 0) {
+			//댓글의 글번호가 parentNum 이 된다. 
+			parentNum=num;
+		}
+		//CommentDto 에 추가 정보를 담는다
+		dto.setNum(num);
+		dto.setWriter(writer);
+		dto.setParentNum(parentNum);
+		//dao 를 이용해서 DB 에 저장 
+		commentDao.insert(dto);
+	}
+
+	@Override
+	public void updateComment(CommentDto dto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteComment(long num) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<String, Object> getComments(CommentListRequest clr) {
+		CommentDto dto=new CommentDto();
+		dto.setPostNum(clr.getPostNum());
+		/*
+		[ 댓글 페이징 처리에 관련된 로직 ]
+		*/
+		
+		//한 페이지에 댓글을 몇개씩 표시할 것인지
+		final int PAGE_ROW_COUNT=10;
+		
+		int pageNum=clr.getPageNum();
+		//보여줄 페이지의 시작 ROWNUM
+		int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
+		//보여줄 페이지의 끝 ROWNUM
+		int endRowNum=pageNum*PAGE_ROW_COUNT;
+		//계산된 값을 dto 에 담는다
+		dto.setStartRowNum(startRowNum);
+		dto.setEndRowNum(endRowNum);
+		
+		//전체 댓글의 갯수
+		int totalRow=commentDao.getCount(clr.getPostNum());
+		//전체 페이지의 갯수 구하기
+		int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+		
+		//pageNum 에 해당하는 댓글 목록을 얻어낸다.
+		List<CommentDto> list=commentDao.getList(dto);
+		//json 을 응답할때 필요한 Map 객체를 구성한다.
+		Map<String, Object> map=new HashMap<>();
+		map.put("list", list);
+		map.put("totalPageCount", totalPageCount);
+		
+		return map;
 	}
 
 }

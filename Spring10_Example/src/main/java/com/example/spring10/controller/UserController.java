@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.spring10.dto.UserDto;
 import com.example.spring10.service.UserService;
@@ -134,7 +135,10 @@ public class UserController {
 	
 	//로그인이 필요한 요청경로를 로그인 하지 않은 상태로 요청하면 리다일렉트 되는 요청경로 
 	@GetMapping("/user/required-loginform")
-	public String required_loginform() {
+	public String required_loginform(String url, RedirectAttributes ra) {
+		if(url != null) {
+			ra.addAttribute("url", url);
+		}
 		return "user/required-loginform";
 	}
 	// POST 방식 /user/login 요청후 로그인 성공인경우 forward 이동될 url 

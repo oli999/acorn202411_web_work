@@ -113,6 +113,9 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public void deletePost(long num) {
+		//posts 의 num 을 참조하고 있는 자식 레코드를 미리 삭제
+		postDao.deleteReaded(num);
+		//글 삭제
 		postDao.delete(num);
 	}
 
@@ -150,14 +153,12 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public void updateComment(CommentDto dto) {
-		// TODO Auto-generated method stub
-		
+		commentDao.update(dto);
 	}
 
 	@Override
 	public void deleteComment(long num) {
-		// TODO Auto-generated method stub
-		
+		commentDao.delete(num);
 	}
 
 	@Override

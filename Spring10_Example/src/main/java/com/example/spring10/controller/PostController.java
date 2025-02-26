@@ -24,6 +24,23 @@ public class PostController {
 	
 	@Autowired private PostService service;
 	
+	@PostMapping("/post/update-comment")
+	@ResponseBody
+	public Map<String, Boolean> updateComment(CommentDto dto){
+		service.updateComment(dto);
+		return Map.of("isSuccess", true);
+	}
+	
+	@GetMapping("/post/delete-comment") 
+	@ResponseBody 
+	public Map<String, Boolean> deleteComment(long num){
+		
+		service.deleteComment(num);
+		// @ResponseBody 어노테이션을 붙여 놓고 아래의 데이터를 리턴하면  {"isSuccess":true} 형식의 json 
+		// 문자열이 응답된다.
+		return Map.of("isSuccess", true);
+	}
+	
 	@GetMapping("/post/comment-list")
 	@ResponseBody 
 	public Map<String, Object> commentList(CommentListRequest clr){

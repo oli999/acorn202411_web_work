@@ -26,7 +26,7 @@
 					<td th:text="${tmp.num}"></td>
 					<td th:text="${tmp.uploader}"></td>
 					<td th:text="${tmp.title}"></td>
-					<td>[[${tmp.orgFileName}]]</td>
+					<td><a th:href="@{/file/download(num=${tmp.num})}">[[${tmp.orgFileName}]] </a></td>
 					<td th:text="${tmp.fileSize}"></td>
 					<td th:text="${tmp.uploadedAt}"></td>
 				</tr>

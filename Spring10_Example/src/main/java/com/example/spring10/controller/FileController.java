@@ -1,8 +1,15 @@
 package com.example.spring10.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +23,12 @@ import com.example.spring10.service.FileService;
 public class FileController {
 	
 	@Autowired private FileService service;
+	
+	@GetMapping("/file/download")
+	public ResponseEntity<InputStreamResource> download(long num){
+
+		return service.getResponse(num);
+	}
 	
 	@PostMapping("/file/save")
 	public String save(FileDto dto, RedirectAttributes ra) {

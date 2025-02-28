@@ -39,7 +39,6 @@ public class Spring08JavaApplication {
 		util.writeReport();
 		util.writeDiary();
 	}
-	
 
 	public static void main(String[] args) {
 		SpringApplication.run(Spring08JavaApplication.class, args);

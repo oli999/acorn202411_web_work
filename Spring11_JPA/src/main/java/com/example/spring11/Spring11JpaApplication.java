@@ -26,7 +26,6 @@ public class Spring11JpaApplication {
 		memberRepo.save(m2);
 		memberRepo.save(m3);
 		
-	
 	}
 
 	public static void main(String[] args) {

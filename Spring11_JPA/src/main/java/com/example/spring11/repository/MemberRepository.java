@@ -36,11 +36,11 @@ public interface MemberRepository extends JpaRepository<Member, Integer>{
 	 *  Java Persistence Query Language (JPQL)
 	 *  - JPQL은 SQL과 유사하지만 엔티티와 속성에 기반하여 작성되며, 데이터베이스 종속적이지 않음
 	 *  - JPQL 만의 문법이 존재한다 
-	 *  - 테이블명 대신에 => Entity 명 
+	 *  - Entity 의 name 은 @Entity 어노테이션이 붙어있는 클래스의 이름 혹은 name 속성의 value
 	 *  - Entity 의 별칭은 필수 
 	 *  - select 된 row 의 정보를 Entity 혹은 Dto 에 담을수 있다. 
 	 */
-	@Query(value = "SELECT m FROM Member m ORDER BY m.num DESC")
+	@Query(value = "SELECT m FROM MEMBER_INFO m ORDER BY m.num DESC")
 	public List<Member> getList(); //메소드명은 마음대로 규칙없이 
 	
 }

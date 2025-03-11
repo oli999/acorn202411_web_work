@@ -85,7 +85,9 @@ public class SecurityConfig {
 			//세션을 사용하지 않도록 설정한다.
 			config.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		)
+		//원래 가려던 목적지 정보를 쿠키에 자동으로 저장해주는 기능 
 		.requestCache(config -> config.requestCache(new CookieRequestCache()))
+		//JwtFilter 를 Spring Security 필터보다 미리 수행되게 하기 
 		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		
 		

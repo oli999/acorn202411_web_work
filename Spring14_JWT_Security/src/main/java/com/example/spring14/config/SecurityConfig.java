@@ -46,7 +46,7 @@ public class SecurityConfig {
 		.authorizeHttpRequests(config ->
 			config
 				.requestMatchers(whiteList).permitAll()
-				.requestMatchers("/admin/**").hasRole("ADMIN")
+				.requestMatchers("/admin/**").hasRole("ADMIN") 
 				.requestMatchers("/staff/**").hasAnyRole("ADMIN", "STAFF")
 				.anyRequest().authenticated()
 		)

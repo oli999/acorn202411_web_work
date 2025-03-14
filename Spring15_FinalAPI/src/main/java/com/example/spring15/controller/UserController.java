@@ -9,11 +9,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring15.dto.UserDto;
+import com.example.spring15.service.UserService;
 import com.example.spring15.util.JwtUtil;
 
 @RestController
@@ -22,6 +26,38 @@ public class UserController {
 	@Autowired JwtUtil jwtUtil;
 	//SecurityConfig 클래스에서 Bean 이된 AuthenticationManager 객체 주입받기 
 	@Autowired AuthenticationManager authManager;
+	
+	@Autowired UserService userService;
+	
+	@PatchMapping("/user/password")
+	public String updatePassword(@RequestBody UserDto dto) {
+		
+		userService.changePassword(dto);
+		
+		return "success!";
+	}
+	
+	// json 문자열이 전송되는게 아니기 때문에 @RequestBody 는 필요 없다 
+	@PatchMapping("/user")
+	public String updateUser(UserDto dto) {
+		
+		userService.updateUserInfo(dto);
+	
+		return "success!";
+	}
+	
+	@GetMapping("/user")
+	public UserDto getInfo() {
+		// 이미 1회성 로그인이 되어 있기때문에 userName 을 얻어낼수 있다.
+		String userName=SecurityContextHolder.getContext().getAuthentication().getName();
+		return userService.getByUserName(userName);
+	}
+	
+	//클라이언트가 토큰이 정상 동작하는지 확인할 요청 경로 
+	@GetMapping("/ping")
+	public String ping() {
+		return "pong";
+	}
 	
 	@PostMapping("/auth")
 	public ResponseEntity<String> auth(@RequestBody UserDto dto) throws Exception{

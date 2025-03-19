@@ -46,18 +46,23 @@ public class PostController {
 		return Map.of("isSuccess", true);
 	}
 	
-	@GetMapping("/post/comment-list")
-	@ResponseBody 
-	public Map<String, Object> commentList(CommentListRequest clr){
-		//CommentListRequest 객체에는 댓글의 pageNum 과 원글의 글번호 postNum 이 들어 있다.
-		
+	@GetMapping("/posts/{num}/comments")
+	public Map<String, Object> commentList(@PathVariable("num") long num, int pageNum){
+		//CommentListRequest 에 필요한 정보를 담고
+		CommentListRequest clr=new CommentListRequest();
+		clr.setPostNum(num);
+		clr.setPageNum(pageNum);
+		//서비스를 이용해서 댓글 목록 정보를 얻어내서 응답한다.
 		return service.getComments(clr);
 	}
 	
 	//댓글 저장 요청처리
-	@PostMapping("/post/save-comment")
-	@ResponseBody // dto 에 저장된 내용을 json 으로 응답하기 위한 어노테이션 
-	public CommentDto saveComment(CommentDto dto) {
+	@PostMapping("/posts/{num}/comments")
+	public CommentDto saveComment(@PathVariable(value="num") long num , 
+			@RequestBody CommentDto dto) {
+		//dto 에 원글의 글번호 담기
+		dto.setPostNum(num);
+		//서비스를 이용해서 댓글 저장
 		service.createComment(dto);
 		return dto;
 	}

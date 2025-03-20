@@ -25,7 +25,7 @@ import reactor.core.publisher.Mono;
 @RestController
 public class GeminiController {
 	
-	@Autowired GeminiService service;
+	@Autowired GeminiService2 service;
 	
 	/*   
 	 *    POST 방식 /ask 요청을 하면서 아래의 형식과 같은 json 문자열을 전송하면 된다.

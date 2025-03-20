@@ -41,6 +41,14 @@ public class GeminiController {
 		return service.getChatResponse(prompt);
 	}
 	
+	@PostMapping("/ask2")
+	public String ask2(@RequestBody Map<String, String> request){
+		//질문 얻어내기
+		String prompt = request.get("prompt");
+		//서비스를 이용해서 질문에 대한 답을 리턴한다.
+		return service.getChatResponseSync(prompt);
+	}
+	
 	@PostMapping("/food")
 	public Mono<String> food(@RequestBody Map<String, String> request){
 		//질문 얻어내기

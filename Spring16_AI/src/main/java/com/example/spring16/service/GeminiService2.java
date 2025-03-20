@@ -49,6 +49,37 @@ public class GeminiService2 {
 
         return getChatResponse(str);
     }
+    
+    
+    public String getChatResponseSync(String prompt) {
+    	//GeminiRequest 구성하기 
+        GeminiRequest request = new GeminiRequest();
+        GeminiRequest.Content content = new GeminiRequest.Content();
+        GeminiRequest.Part part = new GeminiRequest.Part();
+        //part 에 질문을 담는다. 
+        part.setText(prompt);
+        content.setParts(List.of(part));
+        request.setContents(List.of(content));
+
+        String result=webClient.post()
+                .uri(uriBuilder -> uriBuilder.path(":generateContent")
+                        .queryParam("key", apiKey)
+                        .build())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(request) // Map 객체 대신에 GeminiRequest 객체를 넣어주면 json 으로 변경된다.
+                .retrieve()
+                .bodyToMono(String.class)
+                .doOnNext(responseBody -> System.out.println(responseBody))
+                .flatMap(responseBody -> {
+                    try {
+                        return Mono.just(extractResponse(responseBody));
+                    } catch (Exception e) {
+                        return Mono.error(new RuntimeException("JSON 파싱 오류", e));
+                    }
+                }).block(); //block 메소드를 호출하면 결과 문자열을 받아올때 까지 기다린다.
+        return result;
+    }
+    
 
     public Mono<String> getChatResponse(String prompt) {
     	//GeminiRequest 구성하기 

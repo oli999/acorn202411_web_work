@@ -29,9 +29,9 @@ public class PostController {
 	
 	@Autowired private PostService service;
 	
-	@PostMapping("/post/update-comment")
-	@ResponseBody
-	public Map<String, Boolean> updateComment(CommentDto dto){
+	@PatchMapping("/posts/{num}/comments")
+	public Map<String, Boolean> updateComment(@RequestBody CommentDto dto){
+		//dto 에는 댓글의 글번호와 댓글의 내용이 들어 있다. 
 		service.updateComment(dto);
 		return Map.of("isSuccess", true);
 	}

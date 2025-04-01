@@ -20,7 +20,6 @@ import com.example.spring12.dto.PostDto;
 import com.example.spring12.entity.Post;
 import com.example.spring12.repository.PostRepository;
 
-@CrossOrigin(origins = "*")
 @RequestMapping("/v1")
 @RestController
 public class PostController {

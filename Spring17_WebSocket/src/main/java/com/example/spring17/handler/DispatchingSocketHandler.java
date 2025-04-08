@@ -76,6 +76,21 @@ public class DispatchingSocketHandler extends TextWebSocketHandler {
         }
 
         try {
+        	/*
+        	 *  {
+        	 *  	"path:"xxx",
+        	 *  	"data":{
+        	 *    
+        	 *       }
+        	 *  }
+        	 *  data 라는 키값으로 전달된 object 형식의 json 문자열을 실제 type 으로 변환해서 리턴해준다.
+        	 *  
+        	 *  예를들어 
+        	 *  
+        	 *  "data":{"text":"메세지}   이면
+        	 *  
+        	 *  {"text":"메세지} 를 ChatMessage 객체로 변환해준다
+        	 */
             return objectMapper.treeToValue(dataNode, type);
         } catch (Exception e) {
             throw new RuntimeException("데이터 변환 실패: " + type.getName(), e);
@@ -85,19 +100,17 @@ public class DispatchingSocketHandler extends TextWebSocketHandler {
 	//클라이언트가 웹소켓 연결을 요청하고 성공되었을때 호출되는 메소드 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		String sessionId=session.getId();
-		System.out.println(sessionId+" 연결됨!");
-		TextMessage message=new TextMessage("안녕 클라이언트야!");
-		session.sendMessage(message);
 		sessionManager.register(session);
 	}
-	
 	//클라이언트의 웹소켓 연결이 종료되면 호출되는 메소드 
 	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		String sessionId=session.getId();
-		System.out.println(sessionId+" 연결해제됨!");
-		sessionManager.remove(session);
-		
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {	
+		sessionManager.remove(session);	
+		sessionManager.removeUser(sessionManager.getSessionUser(session));
 	}
 }
+
+
+
+
+

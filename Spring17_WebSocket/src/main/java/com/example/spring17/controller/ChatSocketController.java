@@ -1,6 +1,7 @@
 package com.example.spring17.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.TextMessage;
@@ -14,6 +15,32 @@ import com.example.spring17.handler.SocketSessionManager;
 public class ChatSocketController {
 	@Autowired
 	private SocketSessionManager sessionManager;
+	
+	@SocketMapping("/chat/enter")
+	public void enter(WebSocketSession session, ChatMessage message) {
+		//대화방에 입장하는 userName 
+		String userName=message.getUserName();
+		//누가 어떤 session 으로 입장했는지 저장하기 
+		sessionManager.enterUser(userName, session);
+		String json="""
+			{
+				"type":"enter",
+				"payload":{
+					"userName":"%s"
+				}
+			}
+		""".formatted(userName);
+		TextMessage msg=new TextMessage(json);
+		//대화방에 입장한 모든 세션에 동일한 메세지 보내기
+		Map<String, WebSocketSession> map=sessionManager.getAllUserSession();
+		for(String key : map.keySet() ) {
+			try {
+				map.get(key).sendMessage(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	@SocketMapping("/chat/send")
 	public void sendMessage(WebSocketSession session, ChatMessage message) {
